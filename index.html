@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Responsive Image Generator</title>
+	<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+	<div class="header">
+		<h1>📸 Responsive Image Generator</h1>
+		<p class="subtitle">Upload, generate, and download optimized responsive images</p>
+	</div>
+
+	<div class="main-container">
+		<!-- LEFT PANEL -->
+		<div class="left-panel">
+			<div class="upload-area" id="uploadArea">
+				<div class="upload-icon">⬆️</div>
+				<div class="upload-text">Drop your image here</div>
+				<div class="upload-hint">or click to browse</div>
+				<input type="file" id="fileInput" accept="image/*">
+			</div>
+
+			<div class="preview-section" id="previewSection">
+				<table class="file-table">
+					<thead>
+						<tr>
+							<th>Thumbnail</th>
+							<th>Filename</th>
+							<th>Dimension</th>
+							<th>Size</th>
+							<th>File Type</th>
+							<th>Delete File</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="thumbnail-cell">
+								<img id="previewImage" class="thumbnail-img" alt="Preview">
+							</td>
+							<td class="filename-cell" id="filenameCell"></td>
+							<td id="dimensionCell"></td>
+							<td id="sizeCell"></td>
+							<td><span class="file-type-badge" id="fileTypeCell"></span></td>
+							<td><button class="delete-btn" id="clearBtn">Delete</button></td>
+						</tr>
+					</tbody>
+				</table>
+
+				<button class="generate-btn" id="generateBtn">🚀 Generate Responsive Images</button>
+			</div>
+		</div>
+
+		<!-- RIGHT PANEL -->
+		<div class="right-panel" id="rightPanel">
+			<div class="progress-section" id="progressSection">
+				<div class="progress-text" id="progressText">Processing...</div>
+				<div class="progress-bar">
+					<div class="progress-fill" id="progressFill"></div>
+				</div>
+			</div>
+
+			<div class="results-section" id="resultsSection">
+				<div class="results-header">
+					<div class="results-title">✅ Generation Complete!</div>
+					<div class="results-info" id="resultsInfo"></div>
+				</div>
+
+				<div class="action-buttons">
+					<button class="action-btn download-btn" id="downloadBtn">
+						📦 Download ZIP
+					</button>
+					<button class="action-btn copy-btn" id="copyBtn">
+						📋 Copy HTML
+					</button>
+				</div>
+
+				<div class="html-label">HTML Srcset Code:</div>
+				<div class="html-preview">
+					<pre id="htmlCode"></pre>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="module" src="script.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+</body>
+
+</html>
