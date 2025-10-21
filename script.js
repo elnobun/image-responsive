@@ -7,6 +7,10 @@ const dimensionCell = document.getElementById('dimensionCell');
 const sizeCell = document.getElementById('sizeCell');
 const fileTypeCell = document.getElementById('fileTypeCell');
 const clearBtn = document.getElementById('clearBtn');
+const widthsContainer = document.getElementById('widthsContainer');
+const widthInput = document.getElementById('widthInput');
+const addWidthBtn = document.getElementById('addWidthBtn');
+const altTextInput = document.getElementById('altTextInput');
 const generateBtn = document.getElementById('generateBtn');
 const rightPanel = document.getElementById('rightPanel');
 const progressSection = document.getElementById('progressSection');
@@ -17,14 +21,66 @@ const resultsInfo = document.getElementById('resultsInfo');
 const downloadBtn = document.getElementById('downloadBtn');
 const copyBtn = document.getElementById('copyBtn');
 const htmlCode = document.getElementById('htmlCode');
+const safariNotice = document.getElementById('safariNotice');
 
-const SIZES = [576, 768, 992, 1200, 1400, 1152, 1536, 1984, 2000, 2800, 2540];
-const QUALITY = 0.7;
+let targetWidths = [400, 500, 600, 800, 1000, 1200];
+
+// Detect Safari and adjust quality
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+const QUALITY = isSafari ? 0.55 : 0.7;
+
+// Show Safari notice
+if (isSafari) {
+	safariNotice.classList.add('active');
+}
 
 let uploadedFile = null;
 let originalImage = null;
 let generatedImages = [];
 let htmlMarkup = '';
+
+// Initialize widths display
+function renderWidths() {
+	widthsContainer.innerHTML = '';
+	targetWidths.sort((a, b) => a - b).forEach(width => {
+		const tag = document.createElement('div');
+		tag.className = 'width-tag';
+		tag.innerHTML = `
+                    ${width}
+                    <button class="width-remove" data-width="${width}">×</button>
+                `;
+		widthsContainer.appendChild(tag);
+	});
+
+	// Add event listeners to remove buttons
+	document.querySelectorAll('.width-remove').forEach(btn => {
+		btn.addEventListener('click', (e) => {
+			const width = parseInt(e.target.dataset.width);
+			targetWidths = targetWidths.filter(w => w !== width);
+			renderWidths();
+		});
+	});
+}
+
+// Add width
+addWidthBtn.addEventListener('click', () => {
+	const width = parseInt(widthInput.value);
+	if (width && width > 0 && !targetWidths.includes(width)) {
+		targetWidths.push(width);
+		renderWidths();
+		widthInput.value = '';
+	}
+});
+
+// Add width on Enter key
+widthInput.addEventListener('keypress', (e) => {
+	if (e.key === 'Enter') {
+		addWidthBtn.click();
+	}
+});
+
+// Initial render
+renderWidths();
 
 // Click to upload
 uploadArea.addEventListener('click', () => {
@@ -97,6 +153,7 @@ clearBtn.addEventListener('click', (e) => {
 	generatedImages = [];
 	htmlMarkup = '';
 	fileInput.value = '';
+	altTextInput.value = '';
 	previewSection.classList.remove('active');
 	rightPanel.classList.remove('active');
 	previewImage.src = '';
@@ -113,12 +170,13 @@ generateBtn.addEventListener('click', async () => {
 	generatedImages = [];
 
 	const baseName = uploadedFile.name.split('.')[0];
+	const sortedWidths = [...targetWidths].sort((a, b) => a - b);
 
-	for (let i = 0; i < SIZES.length; i++) {
-		const width = SIZES[i];
-		const progress = ((i + 1) / SIZES.length) * 100;
+	for (let i = 0; i < sortedWidths.length; i++) {
+		const width = sortedWidths[i];
+		const progress = ((i + 1) / sortedWidths.length) * 100;
 
-		progressText.textContent = `Processing ${width}px (${i + 1}/${SIZES.length})...`;
+		progressText.textContent = `Processing ${width}px (${i + 1}/${sortedWidths.length})...`;
 		progressFill.style.width = `${progress}%`;
 
 		try {
@@ -139,21 +197,37 @@ generateBtn.addEventListener('click', async () => {
 		}
 	}
 
+	// Generate alt text
+	let altText = altTextInput.value.trim();
+	if (!altText) {
+		// Auto-generate from filename: remove extension, replace dashes/underscores with spaces
+		altText = baseName.replace(/[-_]/g, ' ').replace(/\s+/g, ' ').trim();
+	}
+
 	// Generate HTML markup
 	const srcsetParts = generatedImages.map(img =>
 		`/images/${img.filename} ${img.width}w`
 	).join(',\n    ');
 
-	const smallestImage = generatedImages[0].filename;
-	const altText = baseName.replace(/-/g, ' ');
+	// Generate sizes attribute
+	const sizesAttr = sortedWidths.map((width, index) => {
+		if (index === sortedWidths.length - 1) {
+			return `(min-width: ${sortedWidths[index - 1] + 1}px) ${width}px`;
+		}
+		return `(max-width: ${width}px) ${width}px`;
+	}).join(', ');
 
-	htmlMarkup = `<img 
-		class="responsive-image"
-		srcset="/images/${srcsetParts}"
-		src="/images/${smallestImage}"
-		alt="${altText}"
-		loading="lazy"
-	/>`;
+	const smallestImage = generatedImages[0].filename;
+
+	htmlMarkup = `<img
+  srcset="${srcsetParts}"
+  sizes="${sizesAttr}"
+  src="/images/${smallestImage}"
+  alt="${altText}"
+  width="${originalImage.width}"
+  height="${originalImage.height}"
+  loading="lazy"
+/>`;
 
 	// Show results
 	progressSection.classList.remove('active');

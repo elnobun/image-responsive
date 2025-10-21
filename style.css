@@ -28,6 +28,27 @@ h1 {
 	font-size: 16px;
 }
 
+.safari-notice {
+	display: none;
+	max-width: 1400px;
+	margin: 0 auto 24px;
+	padding: 12px 20px;
+	background: #fff3cd;
+	border: 1px solid #ffc107;
+	border-radius: 8px;
+	color: #856404;
+	font-size: 14px;
+	text-align: center;
+}
+
+.safari-notice.active {
+	display: block;
+}
+
+.safari-notice strong {
+	font-weight: 600;
+}
+
 .main-container {
 	max-width: 1400px;
 	margin: 0 auto;
@@ -112,6 +133,7 @@ input[type="file"] {
 	border-radius: 8px;
 	overflow: hidden;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	margin-bottom: 24px;
 }
 
 .file-table thead {
@@ -178,9 +200,115 @@ input[type="file"] {
 	color: white;
 }
 
+.settings-section {
+	margin-bottom: 20px;
+}
+
+.settings-title {
+	font-size: 15px;
+	font-weight: 600;
+	color: #202124;
+	margin-bottom: 12px;
+}
+
+.input-group {
+	margin-bottom: 16px;
+}
+
+.input-label {
+	display: block;
+	font-size: 13px;
+	font-weight: 500;
+	color: #5f6368;
+	margin-bottom: 6px;
+}
+
+.text-input {
+	width: 100%;
+	padding: 10px 12px;
+	border: 1px solid #dadce0;
+	border-radius: 4px;
+	font-size: 14px;
+	font-family: inherit;
+	transition: border-color 0.2s ease;
+}
+
+.text-input:focus {
+	outline: none;
+	border-color: #1a73e8;
+}
+
+.widths-container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-bottom: 12px;
+}
+
+.width-tag {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 12px;
+	background: #e8f0fe;
+	color: #1967d2;
+	border-radius: 16px;
+	font-size: 13px;
+	font-weight: 500;
+}
+
+.width-remove {
+	background: none;
+	border: none;
+	color: #1967d2;
+	cursor: pointer;
+	font-size: 16px;
+	line-height: 1;
+	padding: 0;
+	transition: color 0.2s ease;
+}
+
+.width-remove:hover {
+	color: #d93025;
+}
+
+.add-width-group {
+	display: flex;
+	gap: 8px;
+}
+
+.width-input {
+	flex: 1;
+	padding: 8px 12px;
+	border: 1px solid #dadce0;
+	border-radius: 4px;
+	font-size: 14px;
+	font-family: inherit;
+}
+
+.width-input:focus {
+	outline: none;
+	border-color: #1a73e8;
+}
+
+.add-width-btn {
+	padding: 8px 16px;
+	background: #1a73e8;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	font-size: 13px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: background 0.2s ease;
+}
+
+.add-width-btn:hover {
+	background: #1765cc;
+}
+
 .generate-btn {
 	width: 100%;
-	margin-top: 16px;
 	padding: 14px;
 	background: #1a73e8;
 	color: white;
