@@ -2,134 +2,134 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Responsive Image Generator</title>
-    <link rel="stylesheet" href="/style.css" />
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Responsive Image Generator</title>
+	<link rel="stylesheet" href="./style.css" />
 </head>
 
 <body>
-    <div class="header">
-        <h1>📸 Responsive Image Generator</h1>
-        <p class="subtitle">Upload, generate, and download optimized responsive images</p>
-    </div>
+	<div class="header">
+		<h1>📸 Responsive Image Generator</h1>
+		<p class="subtitle">Upload, generate, and download optimized responsive images</p>
+	</div>
 
 
-    <div class="safari-notice" id="safariNotice">
-        <strong>Safari detected:</strong> For better compression results, consider using Chrome, Edge, or Firefox.
-        (Quality automatically adjusted for Safari)
-    </div>
+	<div class="safari-notice" id="safariNotice">
+		<strong>Safari detected:</strong> For better compression results, consider using Chrome, Edge, or Firefox.
+		(Quality automatically adjusted for Safari)
+	</div>
 
-    <div class="main-container">
-        <!-- LEFT PANEL -->
-        <div class="left-panel">
-            <div class="upload-area" id="uploadArea">
-                <div class="upload-icon">⬆️</div>
-                <div class="upload-text">Drop your image here</div>
-                <div class="upload-hint">or click to browse</div>
-                <input type="file" id="fileInput" accept="image/*" />
-            </div>
-            <div class="preview-section" id="previewSection">
-                <table class="file-table">
-                    <thead>
-                        <tr>
-                            <th>Thumbnail</th>
-                            <th>Filename</th>
-                            <th>Dimension</th>
-                            <th>Size</th>
-                            <th>File Type</th>
-                            <th>Delete File</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="thumbnail-cell">
-                                <img id="previewImage" class="thumbnail-img" alt="Preview" />
-                            </td>
-                            <td class="filename-cell" id="filenameCell"></td>
-                            <td id="dimensionCell"></td>
-                            <td id="sizeCell"></td>
-                            <td><span class="file-type-badge" id="fileTypeCell"></span></td>
-                            <td><button class="delete-btn" id="clearBtn">Delete</button></td>
-                        </tr>
-                    </tbody>
-                </table>
+	<div class="main-container">
+		<!-- LEFT PANEL -->
+		<div class="left-panel">
+			<div class="upload-area" id="uploadArea">
+				<div class="upload-icon">⬆️</div>
+				<div class="upload-text">Drop your image here</div>
+				<div class="upload-hint">or click to browse</div>
+				<input type="file" id="fileInput" accept="image/*" />
+			</div>
+			<div class="preview-section" id="previewSection">
+				<table class="file-table">
+					<thead>
+						<tr>
+							<th>Thumbnail</th>
+							<th>Filename</th>
+							<th>Dimension</th>
+							<th>Size</th>
+							<th>File Type</th>
+							<th>Delete File</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="thumbnail-cell">
+								<img id="previewImage" class="thumbnail-img" alt="Preview" />
+							</td>
+							<td class="filename-cell" id="filenameCell"></td>
+							<td id="dimensionCell"></td>
+							<td id="sizeCell"></td>
+							<td><span class="file-type-badge" id="fileTypeCell"></span></td>
+							<td><button class="delete-btn" id="clearBtn">Delete</button></td>
+						</tr>
+					</tbody>
+				</table>
 
-                <div class="settings-section">
-                    <div class="settings-title">Target Widths</div>
-
-
-                    <div class="widths-toolbar">
-                        <button class="mini-btn" id="autoFromImageBtn" type="button">Auto (from image)</button>
-                        <button class="mini-btn" id="autoFromRenderedBtn" type="button">Auto (from rendered)</button>
-                        <button class="mini-btn mini-btn-ghost" id="resetWidthsBtn" type="button">Reset</button>
-                    </div>
+				<div class="settings-section">
+					<div class="settings-title">Target Widths</div>
 
 
-                    <div class="widths-container" id="widthsContainer"></div>
+					<div class="widths-toolbar">
+						<button class="mini-btn" id="autoFromImageBtn" type="button">Auto (from image)</button>
+						<button class="mini-btn" id="autoFromRenderedBtn" type="button">Auto (from rendered)</button>
+						<button class="mini-btn mini-btn-ghost" id="resetWidthsBtn" type="button">Reset</button>
+					</div>
 
 
-                    <div class="add-width-group">
-                        <input type="number" class="width-input" id="widthInput" placeholder="Add width (e.g., 1400)"
-                            min="1" step="1" />
-                        <button class="add-width-btn" id="addWidthBtn" type="button">Add width</button>
-                    </div>
-                </div>
-
-                <div class="settings-section">
-                    <div class="input-group">
-                        <label class="input-label" for="altTextInput">Image alt text</label>
-                        <input type="text" class="text-input" id="altTextInput"
-                            placeholder="Leave empty to auto-generate from filename" />
-                    </div>
+					<div class="widths-container" id="widthsContainer"></div>
 
 
-                    <div class="input-group">
-                        <label class="input-label" for="displayWidthInput">Rendered width on desktop (px)</label>
-                        <input type="number" class="text-input" id="displayWidthInput"
-                            placeholder="Paste Lighthouse rendered width (e.g. 332)" min="1" />
-                        <div class="help-text">Tip: click “Auto (from rendered)” to rebuild width candidates around this
-                            value.</div>
-                    </div>
-                </div>
+					<div class="add-width-group">
+						<input type="number" class="width-input" id="widthInput" placeholder="Add width (e.g., 1400)"
+							min="1" step="1" />
+						<button class="add-width-btn" id="addWidthBtn" type="button">Add width</button>
+					</div>
+				</div>
 
-                <button class="generate-btn" id="generateBtn" type="button">🚀 Generate Responsive Images</button>
-            </div>
-        </div>
-
-        <!-- RIGHT PANEL -->
-        <div class="right-panel" id="rightPanel">
-            <div class="progress-section" id="progressSection">
-                <div class="progress-text" id="progressText">Processing...</div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-            </div>
+				<div class="settings-section">
+					<div class="input-group">
+						<label class="input-label" for="altTextInput">Image alt text</label>
+						<input type="text" class="text-input" id="altTextInput"
+							placeholder="Leave empty to auto-generate from filename" />
+					</div>
 
 
-            <div class="results-section" id="resultsSection">
-                <div class="results-header">
-                    <div class="results-title">✅ Generation Complete!</div>
-                    <div class="results-info" id="resultsInfo"></div>
-                </div>
+					<div class="input-group">
+						<label class="input-label" for="displayWidthInput">Rendered width on desktop (px)</label>
+						<input type="number" class="text-input" id="displayWidthInput"
+							placeholder="Paste Lighthouse rendered width (e.g. 332)" min="1" />
+						<div class="help-text">Tip: click “Auto (from rendered)” to rebuild width candidates around this
+							value.</div>
+					</div>
+				</div>
+
+				<button class="generate-btn" id="generateBtn" type="button">🚀 Generate Responsive Images</button>
+			</div>
+		</div>
+
+		<!-- RIGHT PANEL -->
+		<div class="right-panel" id="rightPanel">
+			<div class="progress-section" id="progressSection">
+				<div class="progress-text" id="progressText">Processing...</div>
+				<div class="progress-bar">
+					<div class="progress-fill" id="progressFill"></div>
+				</div>
+			</div>
 
 
-                <div class="action-buttons">
-                    <button class="action-btn download-btn" id="downloadBtn" type="button">📦 Download ZIP</button>
-                    <button class="action-btn copy-btn" id="copyBtn" type="button">📋 Copy HTML</button>
-                </div>
+			<div class="results-section" id="resultsSection">
+				<div class="results-header">
+					<div class="results-title">✅ Generation Complete!</div>
+					<div class="results-info" id="resultsInfo"></div>
+				</div>
 
 
-                <div class="html-label">HTML Srcset Code:</div>
-                <div class="html-preview">
-                    <pre id="htmlCode"></pre>
-                </div>
-            </div>
-        </div>
-    </div>
+				<div class="action-buttons">
+					<button class="action-btn download-btn" id="downloadBtn" type="button">📦 Download ZIP</button>
+					<button class="action-btn copy-btn" id="copyBtn" type="button">📋 Copy HTML</button>
+				</div>
 
-    <script type="module" src="/script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+				<div class="html-label">HTML Srcset Code:</div>
+				<div class="html-preview">
+					<pre id="htmlCode"></pre>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="module" src="./script.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 </body>
 
 </html>
