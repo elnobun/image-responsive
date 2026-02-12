@@ -77,6 +77,16 @@
 				</div>
 
 				<div class="settings-section">
+
+					<div class="input-group">
+						<label class="input-label" for="layoutMode">Layout type</label>
+						<select class="text-input" id="layoutMode">
+							<option value="grid" selected>Card / Grid (mobile 50vw, lazy)</option>
+							<option value="hero">Hero / Banner (mobile 100vw, eager + high priority)</option>
+						</select>
+						<div class="help-text">Use “Hero / Banner” for LCP images so sizes + loading are correct.</div>
+					</div>
+
 					<div class="input-group">
 						<label class="input-label" for="altTextInput">Image alt text</label>
 						<input type="text" class="text-input" id="altTextInput"
