@@ -396,7 +396,7 @@ generateBtn.addEventListener('click', async () => {
 
 	// srcset
 	const srcsetParts = generatedImages
-		.map(img => `/images/${img.filename} ${img.width}w`)
+		.map(img => `/images/responsive/${img.filename} ${img.width}w`)
 		.join(',\n ');
 
 
