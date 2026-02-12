@@ -62,7 +62,7 @@ h1 {
 
 
 .main-container {
-	max-width: 1400px;
+	max-width: 1520px;
 	margin: 0 auto;
 	display: grid;
 	grid-template-columns: 1.5fr 1fr;
@@ -82,6 +82,7 @@ h1 {
 	max-width: 900px;
 	width: 100%;
 }
+
 
 .left-panel,
 .right-panel {
@@ -128,6 +129,7 @@ h1 {
 	font-weight: 500;
 }
 
+
 .upload-hint {
 	font-size: 14px;
 	color: #5f6368;
@@ -163,6 +165,7 @@ input[type="file"] {
 .file-table thead {
 	background: #f8f9fa;
 }
+
 
 .file-table th {
 	padding: 16px 12px;
@@ -201,6 +204,7 @@ input[type="file"] {
 	font-weight: 500;
 }
 
+
 .file-type-badge {
 	display: inline-block;
 	padding: 4px 12px;
@@ -210,7 +214,6 @@ input[type="file"] {
 	font-size: 12px;
 	font-weight: 600;
 }
-
 
 .delete-btn {
 	background: #fce8e6;
@@ -233,6 +236,8 @@ input[type="file"] {
 
 .settings-section {
 	margin-bottom: 20px;
+	display: grid;
+	gap: 1rem;
 }
 
 
@@ -243,7 +248,7 @@ input[type="file"] {
 	margin-bottom: 12px;
 }
 
-.widths-toolbar {
+..widths-toolbar {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
@@ -301,6 +306,7 @@ input[type="file"] {
 	font-size: 14px;
 	font-family: inherit;
 	transition: border-color 0.2s ease;
+	background: white;
 }
 
 
@@ -316,11 +322,12 @@ input[type="file"] {
 	color: #5f6368;
 }
 
+
 .widths-container {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
-	margin-bottom: 12px;
+	margin-block: 12px;
 }
 
 
@@ -359,6 +366,7 @@ input[type="file"] {
 	gap: 8px;
 }
 
+
 .width-input {
 	flex: 1;
 	padding: 8px 12px;
@@ -392,6 +400,7 @@ input[type="file"] {
 	background: #1765cc;
 }
 
+
 .generate-btn {
 	width: 100%;
 	padding: 14px;
@@ -405,7 +414,6 @@ input[type="file"] {
 	transition: all 0.2s ease;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.15);
 }
-
 
 .generate-btn:hover {
 	background: #1765cc;
@@ -433,6 +441,7 @@ input[type="file"] {
 .progress-section {
 	display: none;
 }
+
 
 .progress-section.active {
 	display: block;
@@ -469,6 +478,7 @@ input[type="file"] {
 	display: none;
 }
 
+
 .results-section.active {
 	display: block;
 }
@@ -503,6 +513,7 @@ input[type="file"] {
 	gap: 12px;
 	margin-bottom: 20px;
 }
+
 
 .action-btn {
 	padding: 12px;
@@ -543,10 +554,10 @@ input[type="file"] {
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+
 .copy-btn.copied {
 	background: #188038;
 }
-
 
 .html-label {
 	font-size: 14px;
@@ -651,6 +662,7 @@ input[type="file"] {
 		width: 56px;
 		height: 56px;
 	}
+
 
 	/* Hide dimension column on mobile */
 	.file-table th:nth-child(3),
