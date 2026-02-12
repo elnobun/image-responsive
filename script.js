@@ -24,6 +24,7 @@ const autoFromRenderedBtn = document.getElementById('autoFromRenderedBtn');
 const resetWidthsBtn = document.getElementById('resetWidthsBtn');
 
 
+const layoutMode = document.getElementById('layoutMode');
 const altTextInput = document.getElementById('altTextInput');
 const displayWidthInput = document.getElementById('displayWidthInput');
 
@@ -40,20 +41,19 @@ const copyBtn = document.getElementById('copyBtn');
 const htmlCode = document.getElementById('htmlCode');
 const safariNotice = document.getElementById('safariNotice');
 
-// Default: empty until a file is uploaded
+
 let targetWidths = [];
 let lastAutoWidths = [];
 
 
-// Detect Safari and adjust quality
 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 const QUALITY = isSafari ? 0.55 : 0.7;
 if (isSafari) safariNotice.classList.add('active');
 
 
 let uploadedFile = null;
-let originalImage = null; // HTMLImageElement
-let generatedImages = []; // { filename, width, height, blob, size, isOriginal? }
+let originalImage = null;
+let generatedImages = [];
 let htmlMarkup = '';
 
 // ------------------------------
@@ -84,19 +84,11 @@ function clamp(n, min, max) {
 }
 
 
-// function niceRound(n) {
-// 	// keep numbers looking normal in UI
-// 	if (n < 250) return Math.round(n / 10) * 10;
-// 	if (n < 800) return Math.round(n / 25) * 25;
-// 	return Math.round(n / 50) * 50;
-// }
-
 function niceRound(n) {
 	if (n < 500) return Math.round(n / 10) * 10;
 	if (n < 900) return Math.round(n / 25) * 25;
 	return Math.round(n / 50) * 50;
 }
-
 
 function generateWidthsFromOriginal(originalWidth) {
 	const w = parseInt(originalWidth, 10);
@@ -130,7 +122,6 @@ function generateWidthsFromRendered(renderedWidth, originalWidth) {
 	].map(x => clamp(x, 160, o));
 
 
-	// Ensure the rendered width itself is included (if <= original)
 	if (r <= o) candidates.push(r);
 
 
@@ -143,7 +134,7 @@ function pickRenderedWidth(sortedCandidateWidths) {
 	if (Number.isFinite(desktopRenderedWidth) && desktopRenderedWidth > 0) return desktopRenderedWidth;
 
 
-	// Your preference: blank => original/largest
+	// Blank => use original/largest
 	return sortedCandidateWidths[sortedCandidateWidths.length - 1] || 0;
 }
 
@@ -221,6 +212,7 @@ autoFromRenderedBtn.addEventListener('click', () => {
 	if (next.length) setTargetWidths(next);
 });
 
+
 resetWidthsBtn.addEventListener('click', () => {
 	if (lastAutoWidths.length) {
 		targetWidths = [...lastAutoWidths];
@@ -290,7 +282,6 @@ function handleFile(file) {
 			fileTypeCell.textContent = fileType;
 
 
-			// (1) Auto-generate ideal target widths based on the original image width
 			setTargetWidths(generateWidthsFromOriginal(img.width));
 		};
 		img.src = e.target.result;
@@ -339,17 +330,14 @@ generateBtn.addEventListener('click', async () => {
 	const originalFilename = uploadedFile.name;
 
 
-	// Build width list for generated variants
-	// - Never generate larger than the original width
-	// - De-dupe
 	let sortedWidths = uniqueSortedNumbers(targetWidths).filter(w => w <= originalImage.width);
 
 
-	// If empty (user removed everything), generate something minimal
 	if (sortedWidths.length === 0) {
 		const fallback = Math.min(400, originalImage.width);
 		sortedWidths = [fallback];
 	}
+
 
 	for (let i = 0; i < sortedWidths.length; i++) {
 		const width = sortedWidths[i];
@@ -389,7 +377,6 @@ generateBtn.addEventListener('click', async () => {
 		isOriginal: true,
 	});
 
-
 	// Sort and de-dupe by width. Prefer original when widths match.
 	generatedImages.sort((a, b) => a.width - b.width);
 	const deduped = [];
@@ -416,11 +403,19 @@ generateBtn.addEventListener('click', async () => {
 	// sizes
 	const candidateWidthsForFallback = generatedImages.map(i => i.width);
 	const renderedWidth = pickRenderedWidth(candidateWidthsForFallback);
-	const sizesAttr = `(max-width: 768px) 50vw, ${renderedWidth}px`;
+
+
+	const isHero = (layoutMode?.value === 'hero');
+	const mobileSize = isHero ? '100vw' : '50vw';
+	const sizesAttr = `(max-width: 768px) ${mobileSize}, ${renderedWidth}px`;
 
 
 	// Pick src fallback: first >= renderedWidth, else largest (original)
 	const bestSrcObj = generatedImages.find(img => img.width >= renderedWidth) || generatedImages[generatedImages.length - 1];
+
+
+	const loadingValue = isHero ? 'eager' : 'lazy';
+	const fetchPriorityAttr = isHero ? ' fetchpriority="high"' : '';
 
 
 	htmlMarkup = `<img\n` +
@@ -430,7 +425,8 @@ generateBtn.addEventListener('click', async () => {
 		` width="${bestSrcObj.width}"\n` +
 		` height="${bestSrcObj.height}"\n` +
 		` alt="${altText}"\n` +
-		` loading="lazy"\n` +
+		` decoding="async"\n` +
+		` loading="${loadingValue}"${fetchPriorityAttr}\n` +
 		`/>`;
 
 
